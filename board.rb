@@ -103,20 +103,3 @@ class Board
 
 end
 b = Board.new
-
-# b.render
-b.move_piece!([0, 4], [4, 4])
-b.move_piece!([7, 4], [3, 4])
-b.move_piece!([4, 4], [7, 4])
-b.move_piece!([3, 4], [0, 4])
-#
-# p b.in_check?('black')
-# b.render
-
-puts
-b.render
-puts
-
-p "The white king is in check: #{b.in_check?('white')}"
-puts
-p "The black king is in check: #{b.in_check?('black')}"

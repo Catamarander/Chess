@@ -1,7 +1,4 @@
 class SlidingPiece < Piece
-
-  # attr_reader :chess_board
-
   def one_direction(direction, pos)
     farther = [direction[0] + pos[0], direction[1] + pos[1]]
     return [] unless Board.on_board?(farther)
@@ -16,8 +13,6 @@ class SlidingPiece < Piece
     end
   end
 
-
-
   def moves(pos) # instance of piece
     every_move = []
     move_dirs.each do |dir|
@@ -30,7 +25,5 @@ class SlidingPiece < Piece
   def find_moves(direction)
     current_pos = pos
     moves = []
-
   end
-
 end

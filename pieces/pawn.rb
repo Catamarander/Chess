@@ -1,7 +1,7 @@
 class Pawn < Piece
-
   def move_dirs
-    [1, 0] # or [-1, 0]
+    [1, 0] # or [-1, 0] - need to implement moves in opposite directions
+    # need to implement diagonals for capturing enemy pieces
   end
 
   def moves(pos)
