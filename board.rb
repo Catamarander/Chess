@@ -3,27 +3,50 @@ require_relative 'pieces/pieces.rb'
 class Board
   attr_accessor :chess_board
 
+  def initialize(setup = true)
+    set_up_game(setup)
+  end
+
   def self.on_board?(pos)
     pos.all? { |coord| (0..7).cover? coord }
   end
 
-  def valid_moves(piece)
-    all_possible_moves = piece.moves(piece.pos)
+  def move_piece!(from_pos, to_pos) # used to actually move piece
+    piece = self[from_pos]
+
+    if piece.valid_moves.include?(to_pos)
+      self[to_pos] = piece
+      self[from_pos] = nil
+      piece.pos = to_pos
+      piece.moved = true if piece.is_a?(Pawn)
+    else
+      raise "Not a valid move"
+    end
+  end
+
+  def move(from_pos, to_pos) # only used by valid_moves
+    piece = self[from_pos]
+    self[to_pos] = piece
+    self[from_pos] = nil
+    piece.pos = to_pos
+  end
+
+  def all_moves(piece)
+    piece.moves
   end
 
   def piece_at_position?(position)
     !self[position].nil?
   end
 
-  def initialize
-    set_up_game
-  end
+  def dup_board
+    possible_board = Board.new(false)
+    flattened = chess_board.flatten.compact
+    flattened.each do |piece|
+      possible_board[piece.pos] = piece.class.new(possible_board, piece.pos, piece.color)
+    end
 
-  def move_piece!(from_pos, to_pos)
-      piece = self[from_pos]
-      self[to_pos] = piece
-      self[from_pos] = nil
-      piece.pos = to_pos
+    possible_board
   end
 
   def [](pos)
@@ -41,16 +64,30 @@ class Board
   end
 
   def render
-    chess_board.each { |row| p row }
+    puts "0 1 2 3 4 5 6 7"
+    chess_board.map do |row|
+      row.map do |square|
+        if square
+          square.inspect
+        else
+          '_'
+        end
+      end.join(" ")
+    end.join("\n")
   end
 
   def in_check?(color)
     opponents = get_all_not_color(color)
     king = king_position(color)
     opponents.any? do |opp|
-      moves = valid_moves(opp)
+      moves = all_moves(opp)
       moves.include? king
     end
+  end
+
+  def check_mate?(color)
+    teammates = get_all_color(color)
+    teammates.all? { |teammate| teammate.valid_moves.empty? }
   end
 
   def king_position(color)
@@ -58,22 +95,22 @@ class Board
   end
 
   def get_all_color(color)
-    flat_board = chess_board.flatten
-    flat_board.delete(nil)
-    flat_board.select! {|el| el.color == color }
+    flat_board = chess_board.flatten.compact
+    flat_board.select {|el| el.color == color }
   end
 
   def get_all_not_color(color)
-    flat_board = chess_board.flatten
-    flat_board.delete(nil)
-    flat_board.select! { |el| el.color != color }
+    flat_board = chess_board.flatten.compact
+    flat_board.select { |el| el.color != color }
   end
 
-  def set_up_game
+  def set_up_game(setup = true)
     @chess_board = Array.new(8) { Array.new(8) { nil } }
-    ["white", "black"].each do |color|
-      place_pawns(color)
-      place_pieces(color)
+    if setup
+      ["white", "black"].each do |color|
+        place_pawns(color)
+        place_pieces(color)
+      end
     end
   end
 
@@ -99,7 +136,4 @@ class Board
       piece.new(self, [row, col], color)
     end
   end
-
-
 end
-b = Board.new

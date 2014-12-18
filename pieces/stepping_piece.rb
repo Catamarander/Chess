@@ -1,5 +1,6 @@
 class SteppingPiece < Piece
-  def moves(pos)
+
+  def moves()
     every_move = []
     move_dirs.each do |dir|
       farther = [dir[0] + pos[0], dir[1] + pos[1]]

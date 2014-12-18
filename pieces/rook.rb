@@ -1,4 +1,5 @@
 class Rook < SlidingPiece
+
   def move_dirs
     cardinal
   end

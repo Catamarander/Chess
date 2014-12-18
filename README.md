@@ -1,6 +1,9 @@
 Chess
 =====
 
-This is an in class assignment that is done via pair programming. Currently the 1st of 2 days' work is up.
+This is an in class assignment that is done via pair programming. Currently
+work from lunch time on Day 2 is up.
 
-There is no actual game playing yet - only most of the board is set up.
+You can play the game.
+
+The board does not recognize en passant, castling, or queening/promotion.

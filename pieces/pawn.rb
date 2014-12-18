@@ -1,11 +1,32 @@
 class Pawn < Piece
-  def move_dirs
-    [1, 0] # or [-1, 0] - need to implement moves in opposite directions
-    # need to implement diagonals for capturing enemy pieces
+  attr_accessor :moved
+
+  def initialize(board, pos, color, moved = false)
+    super board, pos, color
+    @moved = moved
   end
 
-  def moves(pos)
-    [move_dirs[0] + pos[0], move_dirs[1] + pos[1]]
+  def moves
+    if self.color == "white"
+      a = 1
+    else
+      a = -1
+    end
+    move_dirs = []
+    unless @moved
+      farther = [self.pos[0] + 2*a, self.pos[1]]
+      move_dirs << farther unless chess_board.piece_at_position?(farther)
+    end
+    farther = [self.pos[0] + a, self.pos[1]]
+    unless chess_board.piece_at_position?(farther)
+      move_dirs << farther
+    end
+
+    diagonals = [[self.pos[0] + a, self.pos[1] + 1],[self.pos[0] + a, self.pos[1] - 1]]
+    diagonals.each do |diag|
+      move_dirs << diag if chess_board.piece_at_position?(diag) && chess_board[diag].color != self.color
+    end
+    move_dirs
   end
 
   def inspect

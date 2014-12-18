@@ -21,8 +21,21 @@ class Piece
     chess_board.add_piece(pos, self)
   end
 
-  def moves(type_of_piece)
-    raise "SHAWNA WAS WRONG"
-    dirs = type_of_piece.move_dirs
+  # def moves(type_of_piece)
+  #   raise "SHAWNA WAS WRONG"
+  #   dirs = type_of_piece.move_dirs
+  # end
+
+  def valid_moves
+    # all_possible_moves = all_moves(piece)
+    true_valid_moves = []
+    current_position = self.pos
+    moves.each do |possible_move|
+      possible_board = self.chess_board.dup_board
+      possible_board.move(current_position, possible_move)
+      true_valid_moves << possible_move unless possible_board.in_check?(self.color)
+    end
+
+    true_valid_moves
   end
 end
