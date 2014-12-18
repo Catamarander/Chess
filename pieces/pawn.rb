@@ -14,8 +14,7 @@ class Pawn < Piece
     end
     move_dirs = []
     unless @moved
-      farther = [self.pos[0] + 2*a, self.pos[1]]
-      move_dirs << farther unless chess_board.piece_at_position?(farther)
+      move_dirs << [self.pos[0] + 2*a, self.pos[1]]
     end
     farther = [self.pos[0] + a, self.pos[1]]
     unless chess_board.piece_at_position?(farther)
@@ -31,9 +30,9 @@ class Pawn < Piece
 
   def inspect
     if self.color == "white"
-      "\u2659".encode('utf-8') #white
+      "\u2659".encode('utf-8') + " " #white
     else
-      "\u265F".encode('utf-8') #black
+      "\u265F".encode('utf-8') + " " #black
     end
   end
 end

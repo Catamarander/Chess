@@ -7,9 +7,9 @@ class Knight < SteppingPiece
 
   def inspect
     if self.color == "white"
-      "\u2658".encode('utf-8') #white
+      "\u2658".encode('utf-8') + " "#white
     else
-      "\u265E".encode('utf-8') #black
+      "\u265E".encode('utf-8') + " "#black
     end
   end
 end

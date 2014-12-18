@@ -19,7 +19,7 @@ class SlidingPiece < Piece
 
 
 
-  def moves() # instance of piece
+  def moves # instance of piece
     every_move = []
     move_dirs.each do |dir|
       every_move += one_direction(dir, pos)

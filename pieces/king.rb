@@ -5,9 +5,9 @@ class King < SteppingPiece
 
   def inspect
     if self.color == "white"
-      "\u2654".encode('utf-8') #white
+      "\u2654".encode('utf-8') + " "#white
     else
-      "\u265A".encode('utf-8') #black
+      "\u265A".encode('utf-8') + " "#black
     end
   end
 end

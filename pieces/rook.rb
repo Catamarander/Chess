@@ -6,9 +6,9 @@ class Rook < SlidingPiece
 
   def inspect
     if self.color == "white"
-      "\u2656".encode('utf-8') #white
+      "\u2656".encode('utf-8') + " " #white
     else
-      "\u265C".encode('utf-8') #black
+      "\u265C".encode('utf-8') + " "#black
     end
   end
 end
